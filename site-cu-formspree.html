@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atelier de Inginerie — Instalații și Rețele Electrice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Serif+4:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#faf8f3;
+    --paper-deep:#f2ede1;
+    --ink:#1f2430;
+    --ink-soft:#4a4f5c;
+    --ink-faint:#7a8090;
+    --navy:#1c2b47;
+    --navy-deep:#131e33;
+    --brass:#9c7a3c;
+    --brass-light:#b8985c;
+    --rule:#d8cfba;
+    --rule-soft:#e8e2d3;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Source Serif 4', serif;
+    line-height:1.65;
+  }
+  h1,h2,h3{font-family:'Cormorant Garamond', serif; font-weight:600; color:var(--navy);}
+  .sans{font-family:'Inter', sans-serif;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:980px; margin:0 auto; padding:0 32px;}
+
+  /* letterhead top bar */
+  .ribbon{background:var(--navy-deep); height:6px; width:100%;}
+
+  header.masthead{padding:56px 0 40px; border-bottom:3px double var(--rule); text-align:center;}
+  .seal{
+    width:64px; height:64px; margin:0 auto 20px;
+    border:1.5px solid var(--brass); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .seal svg{width:32px; height:32px;}
+  .masthead .eyebrow{
+    font-family:'Inter', sans-serif; font-size:11px; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--brass); margin-bottom:14px;
+  }
+  h1.title{font-size:clamp(30px,4vw,44px); letter-spacing:0.01em; margin-bottom:12px;}
+  .masthead .tagline{font-size:17px; color:var(--ink-soft); font-style:italic; max-width:520px; margin:0 auto;}
+
+  nav{
+    background:var(--paper-deep); border-bottom:1px solid var(--rule);
+    position:sticky; top:0; z-index:20;
+  }
+  nav .wrap{display:flex; justify-content:center; gap:40px; height:52px; align-items:center;}
+  nav a{font-family:'Inter',sans-serif; font-size:13px; letter-spacing:0.04em; color:var(--ink-soft); text-transform:uppercase;}
+  nav a:hover{color:var(--navy);}
+
+  section{padding:76px 0; border-bottom:1px solid var(--rule-soft);}
+  .article-num{
+    font-family:'Inter',sans-serif; font-size:12px; letter-spacing:0.12em;
+    color:var(--brass); text-transform:uppercase; margin-bottom:10px;
+  }
+  h2.sec-title{font-size:clamp(26px,3.2vw,34px); margin-bottom:8px;}
+  .sec-intro{color:var(--ink-soft); font-size:16px; max-width:620px; margin-bottom:48px;}
+  .sec-head{text-align:center; margin-bottom:56px;}
+  .sec-head .sec-intro{margin-left:auto; margin-right:auto;}
+
+  /* domains grid - certificate-card style */
+  .domain-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--rule);}
+  .domain{
+    padding:34px 28px; border-right:1px solid var(--rule); border-bottom:1px solid var(--rule);
+    background:var(--paper);
+  }
+  .domain:nth-child(3n){border-right:none;}
+  .domain .dicon{width:34px; height:34px; margin-bottom:16px;}
+  .domain .dicon svg{width:100%; height:100%;}
+  .domain h3{font-size:20px; margin-bottom:10px;}
+  .domain p{font-size:14.5px; color:var(--ink-soft); font-family:'Inter',sans-serif; line-height:1.6;}
+  @media (max-width:820px){
+    .domain-grid{grid-template-columns:1fr 1fr;}
+    .domain:nth-child(3n){border-right:1px solid var(--rule);}
+    .domain:nth-child(2n){border-right:none;}
+  }
+  @media (max-width:560px){
+    .domain-grid{grid-template-columns:1fr;}
+    .domain{border-right:none !important;}
+  }
+
+  /* energy chain grid - reuses domain card look, 4 columns */
+  .chain-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1px solid var(--rule); margin-bottom:8px;}
+  .chain{padding:26px 22px; border-right:1px solid var(--rule); border-bottom:1px solid var(--rule); background:var(--paper);}
+  .chain:nth-child(4n){border-right:none;}
+  .chain .dicon{width:28px; height:28px; margin-bottom:14px;}
+  .chain .dicon svg{width:100%; height:100%;}
+  .chain h3{font-size:17px; margin-bottom:6px;}
+  .chain p{font-size:13.5px; color:var(--ink-soft); font-family:'Inter',sans-serif; line-height:1.55;}
+  @media (max-width:820px){
+    .chain-grid{grid-template-columns:1fr 1fr;}
+    .chain:nth-child(4n){border-right:1px solid var(--rule);}
+    .chain:nth-child(2n){border-right:none;}
+  }
+  @media (max-width:560px){ .chain-grid{grid-template-columns:1fr;} .chain{border-right:none !important;} }
+
+  /* de-emphasized compact authorization list */
+  .minor-registry{margin-top:56px; border-top:1px solid var(--rule-soft); padding-top:24px;}
+  .mr-head{
+    font-family:'Inter',sans-serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:16px;
+  }
+  .mr-row{
+    display:grid; grid-template-columns:280px 1fr; gap:18px;
+    padding:10px 0; font-family:'Inter',sans-serif; font-size:13px; color:var(--ink-soft);
+    border-bottom:1px solid var(--rule-soft);
+  }
+  .mr-k{color:var(--ink); font-weight:500;}
+  @media (max-width:700px){ .mr-row{grid-template-columns:1fr; gap:2px;} }
+
+  /* certificate seal band */
+  .attest-band{
+    margin-top:56px; border:1.5px solid var(--brass); padding:36px 40px;
+    display:grid; grid-template-columns:auto 1fr; gap:28px; align-items:center;
+    background:var(--paper-deep);
+  }
+  .attest-band .mark{width:56px; height:56px; border:1px solid var(--brass); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .attest-band .mark svg{width:28px; height:28px;}
+  .attest-band .txt{font-family:'Inter',sans-serif; font-size:14px; color:var(--ink-soft); line-height:1.7;}
+  .attest-band .txt strong{color:var(--navy); font-family:'Source Serif 4',serif; font-size:15px;}
+  @media (max-width:600px){ .attest-band{grid-template-columns:1fr; text-align:center;} .attest-band .mark{margin:0 auto;} }
+
+  /* qualifications - registry table style */
+  .registry{border-top:1.5px solid var(--navy); border-bottom:1.5px solid var(--navy);}
+  .reg-row{
+    display:grid; grid-template-columns:64px 1.4fr 1fr; gap:20px;
+    padding:18px 0; border-bottom:1px solid var(--rule-soft); align-items:baseline;
+  }
+  .reg-row.head{
+    font-family:'Inter',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--brass); border-bottom:1px solid var(--navy); padding-bottom:12px;
+  }
+  .reg-row .no{font-family:'Cormorant Garamond',serif; font-size:19px; color:var(--brass);}
+  .reg-row .domeniu{font-size:15.5px;}
+  .reg-row .emitent{font-family:'Inter',sans-serif; font-size:13.5px; color:var(--ink-soft);}
+  @media (max-width:700px){
+    .reg-row{grid-template-columns:32px 1fr; row-gap:4px;}
+    .reg-row .emitent{grid-column:2; text-align:left;}
+  }
+
+  /* principles / about, as formal statement */
+  .statement{
+    max-width:720px; margin:0 auto; text-align:center;
+  }
+  .statement p{font-size:19px; line-height:1.8; color:var(--ink); margin-bottom:22px;}
+  .statement p:first-of-type::first-letter{
+    font-family:'Cormorant Garamond',serif; font-size:56px; font-weight:600; color:var(--brass);
+    float:left; line-height:0.8; margin:6px 8px 0 0;
+  }
+
+  /* contact - formal card */
+  .contact-card{
+    border:1.5px solid var(--navy); padding:52px; text-align:center;
+    background:var(--paper-deep);
+  }
+  .contact-card h2{margin-bottom:16px;}
+  .contact-card .sec-intro{margin-bottom:36px;}
+  .contact-fields{
+    display:grid; grid-template-columns:1fr; gap:0;
+    border-top:1px solid var(--rule); max-width:320px; margin:0 auto;
+  }
+  .cfield{padding:20px 16px; border-right:1px solid var(--rule);}
+  .cfield:last-child{border-right:none;}
+  .cfield .k{font-family:'Inter',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--brass); margin-bottom:8px;}
+  .cfield .v{font-family:'Inter',sans-serif; font-size:14px; color:var(--ink-soft);}
+  @media (max-width:600px){ .contact-fields{grid-template-columns:1fr;} .cfield{border-right:none; border-bottom:1px solid var(--rule);} }
+
+  /* contact form */
+  .contact-form{max-width:560px; margin:0 auto 40px; text-align:left;}
+  .frow{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .ffield{margin-bottom:20px;}
+  .ffield label{
+    display:block; font-family:'Inter',sans-serif; font-size:11px; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--brass); margin-bottom:8px;
+  }
+  .ffield input, .ffield textarea{
+    width:100%; background:var(--paper); border:1px solid var(--rule);
+    padding:11px 13px; font-family:'Inter',sans-serif; font-size:14.5px; color:var(--ink);
+    border-radius:2px;
+  }
+  .ffield input:focus, .ffield textarea:focus{outline:none; border-color:var(--brass);}
+  .ffield textarea{resize:vertical;}
+  .fsubmit{
+    font-family:'Inter',sans-serif; font-size:14px; font-weight:600; letter-spacing:0.02em;
+    background:var(--navy); color:var(--paper); border:none; padding:13px 32px;
+    border-radius:2px; cursor:pointer;
+  }
+  .fsubmit:hover{background:var(--navy-deep);}
+  @media (max-width:560px){ .frow{grid-template-columns:1fr;} }
+
+  footer{padding:36px 0; text-align:center;}
+  footer p{font-family:'Inter',sans-serif; font-size:12px; color:var(--ink-faint); letter-spacing:0.04em;}
+</style>
+</head>
+<body>
+
+<div class="ribbon"></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="seal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#9c7a3c" stroke-width="1.3"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>
+    </div>
+    <h1 class="title">Atelier de Inginerie &mdash; Instalații și Rețele Electrice</h1>
+    <p class="tagline">Verificare de proiecte, supervizare de execuție, proiectare și management energetic pentru instalații și rețele electrice</p>
+  </div>
+</header>
+
+<nav>
+  <div class="wrap">
+    <a href="#domenii">Domenii de activitate</a>
+    <a href="#atestari">Portofoliu</a>
+    <a href="#principii">Principii</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section id="domenii">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="article-num sans">Servicii complete</div>
+      <h2 class="sec-title">Domenii de activitate</h2>
+      <p class="sec-intro">Domenii de activitate exercitate în cadrul aceluiași atelier, pe tot ciclul unui proiect electric &mdash; de la proiectare, la verificare și la execuție.</p>
+    </div>
+
+    <div class="domain-grid">
+      <div class="domain">
+        <div class="dicon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c2b47" stroke-width="1.1"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v3h3"/><path d="M9 13l2 2 4-4"/></svg></div>
+        <h3>Verificare de proiecte</h3>
+        <p>Verificarea tehnică a proiectelor de instalații electrice aferente construcțiilor, domeniul Ie.</p>
+      </div>
+      <div class="domain">
+        <div class="dicon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c2b47" stroke-width="1.1"><circle cx="12" cy="12" r="3"/><path d="M12 3v2.2M12 18.8V21M21 12h-2.2M5.2 12H3M18.4 5.6l-1.6 1.6M7.2 16.8l-1.6 1.6M18.4 18.4l-1.6-1.6M7.2 7.2 5.6 5.6"/></svg></div>
+        <h3>Responsabilitate tehnică cu execuția</h3>
+        <p>Supervizare tehnică pe durata execuției lucrărilor de rețele electrice.</p>
+      </div>
+      <div class="domain">
+        <div class="dicon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c2b47" stroke-width="1.1"><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6"/><path d="M4 12h16"/></svg></div>
+        <h3>Dirigenție de șantier</h3>
+        <p>Urmărirea execuției lucrărilor de instalații și rețele electrice pe toată durata șantierului.</p>
+      </div>
+      <div class="domain">
+        <div class="dicon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c2b47" stroke-width="1.1"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 6h7v7"/></svg></div>
+        <h3>Proiectare tehnică</h3>
+        <p>Proiectarea instalațiilor electrice de joasă, medie și înaltă tensiune.</p>
+      </div>
+      <div class="domain">
+        <div class="dicon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c2b47" stroke-width="1.1"><path d="M12 3a9 9 0 100 18 9 9 0 000-18z"/><path d="M12 12l4-3"/><circle cx="12" cy="12" r="1"/></svg></div>
+        <h3>Consultanță &amp; management energetic</h3>
+        <p>Evaluări tehnice pentru eficiență energetică în sectorul industrial.</p>
+      </div>
+      <div class="domain">
+        <div class="dicon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c2b47" stroke-width="1.1"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9.5 12l1.8 1.8L14.5 10"/></svg></div>
+        <h3>Sisteme de securitate</h3>
+        <p>Proiectare de sisteme de securitate integrate în infrastructura electrică.</p>
+      </div>
+    </div>
+
+    <div class="attest-band">
+      <div class="mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#9c7a3c" stroke-width="1.3"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+      </div>
+      <div class="txt">
+        <strong>Activitate reglementată</strong><br>
+        Fiecare domeniu enumerat corespunde unei autorizări distincte, emise de autoritatea de resort competentă, potrivit registrului de atestări.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="atestari">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="article-num sans">Portofoliu</div>
+      <h2 class="sec-title">Experiență pe tot lanțul energetic</h2>
+      <p class="sec-intro">Servicii de inginerie electrică de peste 18 ani &mdash; verificare de proiecte IE, responsabilitate tehnică cu execuția, dirigenție de șantier și proiectare/execuție instalații electrice de orice tensiune, conform autorizărilor ANRE în vigoare.</p>
+    </div>
+
+    <div class="chain-grid">
+      <div class="chain">
+        <div class="dicon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c2b47" stroke-width="1.1"><circle cx="12" cy="4.5" r="2"/><path d="M12 6.5v6M6 21l6-8.5L18 21"/><path d="M4 21h16"/></svg></div>
+        <h3>Producere</h3>
+        <p>Parcuri fotovoltaice, microhidrocentrale, eoliene.</p>
+      </div>
+      <div class="chain">
+        <div class="dicon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c2b47" stroke-width="1.1"><path d="M5 21V9M12 21V4M19 21v-9"/><path d="M2 9h6M9 4h6M16 12h6"/></svg></div>
+        <h3>Transport</h3>
+        <p>Stații de transformare de 220 kV și de 400 kV.</p>
+      </div>
+      <div class="chain">
+        <div class="dicon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c2b47" stroke-width="1.1"><rect x="4" y="4" width="7" height="7" rx="0.5"/><rect x="13" y="13" width="7" height="7" rx="0.5"/><path d="M11 7.5h6a2 2 0 012 2V13M7.5 11v2.5a2 2 0 002 2H13"/></svg></div>
+        <h3>Distribuție</h3>
+        <p>Stații, rețele MT/JT/IT, posturi de transformare.</p>
+      </div>
+      <div class="chain">
+        <div class="dicon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c2b47" stroke-width="1.1"><path d="M4 21V10l8-6 8 6v11"/><path d="M9 21v-6h6v6"/></svg></div>
+        <h3>Utilizare</h3>
+        <p>Instalații industriale, comerciale, rezidențiale, iluminat public.</p>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:64px;">
+      <div class="article-num sans">Instalații interioare &amp; securitate</div>
+      <h2 class="sec-title" style="font-size:26px;">Instalații electrice de joasă tensiune</h2>
+    </div>
+    <div class="chain-grid">
+      <div class="chain">
+        <h3 style="font-size:17px;">Circuite prize și iluminat</h3>
+      </div>
+      <div class="chain">
+        <h3 style="font-size:17px;">Tablouri electrice</h3>
+      </div>
+      <div class="chain">
+        <h3 style="font-size:17px;">Priză de pământ și paratrăsnet</h3>
+      </div>
+      <div class="chain">
+        <h3 style="font-size:17px;">Securitate &mdash; video, control-acces, antiefracție</h3>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="principii">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="article-num sans">Mod de lucru</div>
+      <h2 class="sec-title">Principii de activitate</h2>
+    </div>
+    <div class="statement">
+      <p>Proiectele de instalații și rețele electrice implică, de regulă, mai mulți actori independenți &mdash; proiectant, verificator, dirigenție de șantier, responsabil tehnic. Fiecare predare între aceștia presupune timp și, adesea, pierdere de context.</p>
+      <p>Atelierul reunește sub o singură autorizare domeniile de verificare, execuție și supervizare tehnică, cu autorizările necesare pentru fiecare etapă în parte.</p>
+      <p>Activitatea acoperă întregul teritoriu național, pe tot lanțul energetic &mdash; de la producere și transport, la distribuție și utilizare &mdash; cu accent pe rețele electrice, instalații aferente construcțiilor și management energetic industrial.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="contact-card">
+      <div class="article-num sans" style="text-align:center;">Date de contact</div>
+      <h2 class="sec-title">Solicitare de consultanță</h2>
+      <p class="sec-intro">Pentru servicii de proiectare, verificare de proiect, RTE, dirigenție de șantier sau consultanță tehnică, completați formularul de mai jos.</p>
+
+      <form class="contact-form" action="https://formspree.io/f/xzdnoebj" method="POST">
+        <input type="hidden" name="_subject" value="Solicitare de consultanță — formular site">
+        <input type="text" name="_gotcha" style="display:none">
+        <div class="frow">
+          <div class="ffield">
+            <label for="cf-name">Nume</label>
+            <input type="text" id="cf-name" name="Nume" required>
+          </div>
+          <div class="ffield">
+            <label for="cf-email">Email</label>
+            <input type="email" id="cf-email" name="email" required>
+          </div>
+        </div>
+        <div class="ffield">
+          <label for="cf-subject">Domeniu solicitat</label>
+          <input type="text" id="cf-subject" name="Domeniu" placeholder="ex. verificare de proiect, dirigenție de șantier, management energetic">
+        </div>
+        <div class="ffield">
+          <label for="cf-msg">Cerință</label>
+          <textarea id="cf-msg" name="Cerinta" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="fsubmit">Trimite solicitarea</button>
+      </form>
+
+      <div class="contact-fields">
+        <div class="cfield">
+          <div class="k">Zonă de activitate</div>
+          <div class="v">Acoperire națională completă</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Servicii de inginerie &mdash; instalații și rețele electrice &middot; Cluj-Napoca, România &middot; 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>
